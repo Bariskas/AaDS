@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+using namespace std;
+
 typedef struct sll
 {
 	sll(char newVal) : val(newVal), link(0) {};
@@ -7,7 +10,7 @@ typedef struct sll
 	struct sll * link;
 }  singlyLinkedList;
 
-typedef struct stirngQueue
+struct stirngQueue
 {
 	stirngQueue(string newVal) : val(newVal), link(0) {};
 	string val;
