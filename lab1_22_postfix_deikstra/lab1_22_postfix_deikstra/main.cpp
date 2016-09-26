@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include "LinkedList.h"
 #include "DeikstraParser.h"
 
 using namespace std;
@@ -14,50 +13,6 @@ using namespace std;
 //скобки.Преобразовать выражение в постфиксную  форму(алгоритм
 //	Дейкстры) и вычислить его значение.Показать этапы  выполнения
 //	(11).
-
-string deikstraParse(string expression)
-{
-	charStack myStack;
-	string postFixExpression;
-
-	Parser parser(expression.c_str());
-	cout << parser.parse().token;
-	cout << parser.parse().token;
-	cout << parser.parse().token;
-	cout << "\n";
-	/*
-	bool isNumber = false;
-	for (char& c : expression)
-	{
-		if (isdigit(c))
-		{
-			postFixExpression += c;
-			isNumber = true;
-		}
-		else if (isspace(c) && isdigit)
-		{
-			postFixExpression += ' ';
-		}
-		else if (c == '(')
-		{
-			myStack.push(c);
-		}
-		else if (c == ')')
-		{
-			while (myStack.current() != '(')
-			{
-				if (myStack.empty())
-				{
-					throw "wrong (\n";
-				}
-				postFixExpression += myStack.current();
-				myStack.pop();
-			}
-		}
-	}
-	*/
-	return "dummy return";
-}
 
 int process(string fileName)
 {
@@ -85,9 +40,9 @@ int process(string fileName)
 	{
 		postFixExpression = parser.parse();
 	}
-	catch (int i)
+	catch (string i)
 	{
-		cout << "Error parse\n";
+		cout << "Error parse" + i << endl;
 	}
 
 	return 0;
