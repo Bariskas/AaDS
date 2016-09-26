@@ -23,7 +23,7 @@
     <ClInclude Include="LinkedList.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Parser.h">
+    <ClInclude Include="DeikstraParser.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

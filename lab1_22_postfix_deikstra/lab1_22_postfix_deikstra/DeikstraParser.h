@@ -12,20 +12,37 @@ enum arifmeticTokenType
 
 struct Token
 {
+	Token();
 	Token(arifmeticTokenType type, string token) : type(type), token(token) {}
 	arifmeticTokenType type;
 	string token;
 };
 
-class Parser {
+class DeikstraParser {
+
 public:
-	explicit Parser(const char* input) : input(input) {}
-	Token parse(); // Основная функция парсинга
+	explicit DeikstraParser(const char* input) : input(input) {}
+	string parse();
 private:
-	const char* input; // Кусок строки, который еще не распарсили
+	Token parse_token();
+	const char* input;
 };
 
-Token Parser::parse()
+string DeikstraParser::parse()
+{
+	Token nextToken = parse_token();
+	while (nextToken.type != UNKNOWN && (*input) != '\0')
+	{
+		auto switch_on = nextToken.type;
+		switch (switch_on)
+		{
+		default:
+			break;
+		}
+	}
+}
+
+Token DeikstraParser::parse_token()
 {
 	while (isspace(*input)) ++input;
 
@@ -35,8 +52,7 @@ Token Parser::parse()
 		return Token(NUMBER, number);
 	}
 
-	static const std::string tokens[] =
-	{ "+", "-", "**", "*", "/", "mod", "abs", "sin", "cos", "(", ")" };
+	static const std::string tokens[] =	{ "+", "-", "*", "/", "(", ")" };
 	for (auto& t : tokens) {
 		if (std::strncmp(input, t.c_str(), t.size()) == 0) {
 			input += t.size();

@@ -3,7 +3,7 @@
 #include <string>
 #include <algorithm>
 #include "LinkedList.h"
-#include "Parser.h"
+#include "DeikstraParser.h"
 
 using namespace std;
 
@@ -14,7 +14,6 @@ using namespace std;
 //скобки.Преобразовать выражение в постфиксную  форму(алгоритм
 //	Дейкстры) и вычислить его значение.Показать этапы  выполнения
 //	(11).
-
 
 string deikstraParse(string expression)
 {
@@ -81,14 +80,22 @@ int process(string fileName)
 		return 1;
 	}
 
-	postFixExpression = deikstraParse(expression);
+	DeikstraParser parser(expression.c_str());
+	try
+	{
+		postFixExpression = parser.parse();
+	}
+	catch (int i)
+	{
+		cout << "Error parse\n";
+	}
 
 	return 0;
 }
 
 int main()
 {
-	string userInput("");
+	string userInput;
 	do
 	{
 		cout << "Enter file name with first arifmetic row.\n\"exit\" to exit from program\n";
