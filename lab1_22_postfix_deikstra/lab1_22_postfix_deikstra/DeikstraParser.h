@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <memory>
 #include "MyStack.h"
 using namespace std;
 
@@ -26,10 +27,10 @@ public:
 	explicit DeikstraParser(const char* input) : input(input) {}
 	string parse();
 private:
-	Token* parse_token();
+	unique_ptr<Token> parse_token();
 	const char* input;
-	MyStack<Token> stackResult;
-	MyStack<Token> stackTemp;
+	MyStack<unique_ptr<Token>> stackResult;
+	MyStack<unique_ptr<Token>> stackTemp;
 	map <string, int> priorityMap = { 
 		{ "+", 1 },
 		{ "-", 1 },
@@ -41,7 +42,7 @@ private:
 
 string DeikstraParser::parse()
 {
-	Token* nextToken = parse_token();
+	auto nextToken = parse_token();
 	arifmeticTokenType prevType = BRACKET;
 	while (nextToken->type != UNKNOWN && (*input) != '\0')
 	{
@@ -55,7 +56,7 @@ string DeikstraParser::parse()
 					throw "Two numbers in a row";
 				}
 
-				stackResult.Push(*nextToken);
+				stackResult.Push(nextToken);
 				break;
 			case OPERATOR:
 				if (prevType == switch_on)
@@ -65,19 +66,19 @@ string DeikstraParser::parse()
 
 				if (stackTemp.Empty())
 				{
-					stackTemp.Push(*nextToken);
+					stackTemp.Push(nextToken);
 				} 
-				else if (!stackTemp.Empty() && stackTemp.Top().token == "(")
+				else if (!stackTemp.Empty() && stackTemp.Top()->token == "(")
 				{
-					stackTemp.Push(*nextToken);
+					stackTemp.Push(nextToken);
 				}
-				else if (priorityMap[nextToken->token] > priorityMap[stackTemp.Top().token])
+				else if (priorityMap[nextToken->token] > priorityMap[stackTemp.Top()->token])
 				{
-					stackTemp.Push(*nextToken);
+					stackTemp.Push(nextToken);
 				}
-				else if (priorityMap[nextToken->token] <= priorityMap[stackTemp.Top().token])
+				else if (priorityMap[nextToken->token] <= priorityMap[stackTemp.Top()->token])
 				{
-					while (priorityMap[stackTemp.Top().token] >= priorityMap[nextToken->token] && !stackTemp.Empty())
+					while (priorityMap[stackTemp.Top()->token] >= priorityMap[nextToken->token] && !stackTemp.Empty())
 					{
 						stackResult.Push(stackTemp.Pop());
 					}
@@ -87,11 +88,11 @@ string DeikstraParser::parse()
 			case BRACKET:
 				if (nextToken->token == "(")
 				{
-					stackTemp.Push(*nextToken);
+					stackTemp.Push(nextToken);
 				}
 				else if (nextToken->token == ")")
 				{
-					while (stackTemp.Top().token != "(")
+					while (stackTemp.Top()->token != "(")
 					{
 						if (stackTemp.Empty())
 						{
@@ -117,21 +118,21 @@ string DeikstraParser::parse()
 	string token;
 	while (!stackResult.Empty())
 	{
-		token = stackResult.Pop().token;
+		token = stackResult.Pop()->token;
 		result += token;
 		cout << token << " ";
 	};
 	return result;
 }
 
-Token* DeikstraParser::parse_token()
+unique_ptr<Token> DeikstraParser::parse_token()
 {
 	while (isspace(*input)) ++input;
 
 	if (isdigit(*input)) {
 		std::string number;
 		while (isdigit(*input) || *input == '.') number.push_back(*input++);
-		return new Token(NUMBER, number);
+		return make_unique<Token>(NUMBER, number);
 	}
 
 	static const std::string tokens[] =	{ "+", "-", "*", "/", "(", ")" };
@@ -141,14 +142,14 @@ Token* DeikstraParser::parse_token()
 
 			if (t == "(" || t == ")")
 			{
-				return new Token(BRACKET, t);
+				return make_unique<Token>(BRACKET, t);
 			}
 			else
 			{
-				return new Token(OPERATOR, t);
+				return make_unique<Token>(OPERATOR, t);
 			}
 		}
 	}
 
-	return new Token(UNKNOWN, "");
+	return make_unique<Token>(UNKNOWN, "");
 }
