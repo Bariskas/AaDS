@@ -19,7 +19,7 @@ string DeikstraParser::parse()
 				throw "Two numbers in a row";
 			}
 
-			stackResult.Push(nextToken);
+			dequeResult.PushTop(nextToken);
 			break;
 		case OPERATOR:
 			if (prevType == switch_on)
@@ -43,9 +43,9 @@ string DeikstraParser::parse()
 			{
 				while (priorityMap[stackTemp.Top().token] >= priorityMap[nextToken.token] && !stackTemp.Empty())
 				{
-					stackResult.Push(stackTemp.Pop());
+					dequeResult.PushTop(stackTemp.Pop());
 				}
-				stackTemp.Push(stackTemp.Pop());
+				stackTemp.Push(nextToken);
 			}
 			break;
 		case BRACKET:
@@ -62,8 +62,9 @@ string DeikstraParser::parse()
 						throw "Wrong )";
 					}
 
-					stackResult.Push(stackTemp.Pop());
+					dequeResult.PushTop(stackTemp.Pop());
 				}
+				stackTemp.Pop();
 			}
 			break;
 		default:
@@ -73,17 +74,57 @@ string DeikstraParser::parse()
 	}
 	while (!stackTemp.Empty())
 	{
-		stackResult.Push(stackTemp.Pop());
+		dequeResult.PushTop(stackTemp.Pop());
 	}
 
-	string result;
-	string token;
-	while (!stackResult.Empty())
+	cout << calculateResult() << endl;
+	return "";
+}
+
+double DeikstraParser::calculateResult()
+{
+	double result;
+	Token token;
+	while (!dequeResult.Empty())
 	{
-		token = stackResult.Pop().token;
-		result += token;
-		cout << token << " ";
+		token = dequeResult.PopBack();
+		if (token.type == OPERATOR)
+		{
+			double token1 = numberStack.Pop();
+			double token2 = numberStack.Pop();
+			numberStack.Push(performOperation(token1, token2, token.token));
+		}
+		else
+		{
+			numberStack.Push(stod(token.token));
+		}
+		cout << token.token << " ";
 	};
+	cout << endl;
+	return numberStack.Pop();
+}
+
+double DeikstraParser::performOperation(double arg1, double arg2, string operation)
+{
+	double result;
+	switch (operation.c_str()[0])
+	{
+	case '+':
+		result = arg1 + arg2;
+		break;
+	case '*':
+		result = arg1 * arg2;
+		break;
+	case '-':
+		result = arg2 - arg1;
+		break;
+	case '/':
+		result = arg2 / arg1;
+		break;
+	default:
+		throw invalid_argument("error operation");
+		break;
+	}
 	return result;
 }
 

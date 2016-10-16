@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include "MyStack.h"
+#include "MyDeque.h"
 using namespace std;
 
 enum arifmeticTokenType
@@ -31,9 +32,12 @@ public:
 	string parse();
 private:
 	Token parse_token();
+	double calculateResult();
+	double performOperation(double arg1, double arg2, string operation);
 	const char* input;
-	MyStack<Token> stackResult;
+	MyDeque<Token> dequeResult;
 	MyStack<Token> stackTemp;
+	MyStack<double> numberStack;
 
 	map <string, int> priorityMap = { 
 		{ "+", 1 },

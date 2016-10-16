@@ -146,6 +146,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyDeque.h" />
     <ClInclude Include="MyStack.h" />
     <ClInclude Include="DeikstraParser.h" />
   </ItemGroup>
