@@ -3,18 +3,11 @@
 #include <string>
 using namespace std;
 
-
-//struct stringQueue
-//{
-//	stringQueue(string newVal) : val(newVal), link(0) {};
-//	string val;
-//	struct stringQueue * next;
-//};
-
 template <typename T>
 struct StackNode
 {
 	StackNode<T>(T newVal, StackNode *nextNode) : value(newVal), next(nextNode) {};
+
 	T value;
 	struct StackNode *next;
 };
@@ -30,6 +23,7 @@ public:
 	MyStack()
 	{
 		emptyItem = new T();
+		m_top = 0;
 	}
 
 	~MyStack()
@@ -52,7 +46,7 @@ public:
 		{
 			StackNode<T> *topNode = m_top;
 			m_top = m_top->next;
-			T data = topNode->value;
+			T data = move(topNode->value);
 			delete topNode;
 			return data;
 		}

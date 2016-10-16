@@ -42,7 +42,8 @@ int process(string fileName)
 	}
 	catch (string i)
 	{
-		cout << "Error parse" + i << endl;
+		cout << "Error parse " + i << endl;
+		return 1;
 	}
 
 	return 0;
@@ -58,7 +59,6 @@ int main()
 
 		std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
 
-
 		if (userInput == "exit")
 		{
 			return 0;
@@ -68,5 +68,5 @@ int main()
 			process(userInput);
 		}
 	}
-	while (userInput != "exit");
+	while (true);
 }
