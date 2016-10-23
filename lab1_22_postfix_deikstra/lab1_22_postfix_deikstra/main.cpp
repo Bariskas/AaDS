@@ -65,7 +65,14 @@ int main()
 		}
 		else
 		{
-			process(userInput);
+			try
+			{
+				process(userInput);
+			}
+			catch (const exception& e)
+			{
+				cout << e.what() << endl;
+			}
 		}
 	}
 	while (true);

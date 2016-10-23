@@ -74,6 +74,10 @@ string DeikstraParser::parse()
 	}
 	while (!stackTemp.Empty())
 	{
+		if (stackTemp.Top().type == BRACKET)
+		{
+			throw runtime_error("wrong expression");
+		}
 		dequeResult.PushTop(stackTemp.Pop());
 	}
 
