@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <iostream>
+#include <cmath>
 #include "MyStack.h"
 #include "MyDeque.h"
 using namespace std;

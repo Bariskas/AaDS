@@ -6,6 +6,8 @@ string DeikstraParser::parse()
 {
 	Token nextToken(BRACKET, "");
 	arifmeticTokenType prevType = BRACKET;
+	string prevBracket = "(";
+
 	while (nextToken.type != UNKNOWN && (*input) != '\0')
 	{
 		nextToken = parse_token();
@@ -13,7 +15,6 @@ string DeikstraParser::parse()
 		switch (switch_on)
 		{
 		case NUMBER:
-			//result += nextToken.token;
 			if (prevType == switch_on)
 			{
 				throw "Two numbers in a row";
@@ -27,6 +28,11 @@ string DeikstraParser::parse()
 				throw "Two operator in a row";
 			}
 
+			if (prevBracket == "(" && nextToken.token == "-")
+			{
+				dequeResult.PushTop(Token(NUMBER, "0"));
+			}
+
 			if (stackTemp.Empty())
 			{
 				stackTemp.Push(nextToken);
@@ -35,11 +41,11 @@ string DeikstraParser::parse()
 			{
 				stackTemp.Push(nextToken);
 			}
-			else if (priorityMap[nextToken.token] > priorityMap[stackTemp.Top().token])
+			else if (priorityMap[nextToken.token] >= priorityMap[stackTemp.Top().token])
 			{
 				stackTemp.Push(nextToken);
 			}
-			else if (priorityMap[nextToken.token] <= priorityMap[stackTemp.Top().token])
+			else if (priorityMap[nextToken.token] < priorityMap[stackTemp.Top().token])
 			{
 				while (priorityMap[stackTemp.Top().token] >= priorityMap[nextToken.token] && !stackTemp.Empty())
 				{
@@ -125,6 +131,9 @@ double DeikstraParser::performOperation(double arg1, double arg2, string operati
 	case '/':
 		result = arg2 / arg1;
 		break;
+	case '^':
+		result = pow(arg2, arg1);
+		break;
 	default:
 		throw invalid_argument("error operation");
 		break;
@@ -146,7 +155,7 @@ Token DeikstraParser::parse_token()
 		return Token(NUMBER, number);
 	}
 
-	static const std::string tokens[] = { "+", "-", "*", "/", "(", ")" };
+	static const std::string tokens[] = { "+", "-", "*", "/", "^", "(", ")" };
 	for (auto& t : tokens)
 	{
 		if (std::strncmp(input, t.c_str(), t.size()) == 0)
