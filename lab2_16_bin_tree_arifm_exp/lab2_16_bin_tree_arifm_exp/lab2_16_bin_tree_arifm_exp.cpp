@@ -30,6 +30,7 @@ int process(string fileName)
 	vector<string> inputVector(istream_iterator<string>(stringstream(expression)), (istream_iterator<string>()));
 	MyBinTree<string>* tree = new MyBinTree<string>();
 	auto isLeft = true;
+	tree->AddNode(isLeft);
 	for (size_t i = 0; i < inputVector.size(); i++)
 	{
 		auto currentToken = inputVector[i];
@@ -37,7 +38,11 @@ int process(string fileName)
 		{
 			tree->AddNode(isLeft);
 		}
-		else if (std::any_of(operators.begin(), operators.end(), [&](string oper) {return oper == currentToken; }))
+		else if (currentToken == ")")
+		{
+			tree->GoToParent();
+		}
+		else if (std::any_of(operators.begin(), operators.end(), [&](string oper) { return oper == currentToken; }))
 		{
 			tree->SetValueToCurrentNode(currentToken);
 			tree->AddNode(!isLeft);
@@ -52,9 +57,12 @@ int process(string fileName)
 			cout << "error input " << endl;
 			return 1;
 		}
+
+		tree->WriteFromUpToDown(tree->GetRoot());
+		cout << endl;
 	}
 
-	tree->WriteFromUpToDown(tree->GetRoot(), 0);
+
 	getchar();
 	return 0;
 }

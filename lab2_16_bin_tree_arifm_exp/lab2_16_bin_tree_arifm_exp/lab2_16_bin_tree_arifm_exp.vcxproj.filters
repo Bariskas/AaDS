@@ -35,8 +35,5 @@
     <ClCompile Include="lab2_16_bin_tree_arifm_exp.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="MyBinTree.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

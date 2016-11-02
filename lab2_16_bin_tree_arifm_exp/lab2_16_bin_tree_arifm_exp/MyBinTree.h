@@ -21,12 +21,103 @@ public:
 	void AddNode(bool isLeft);
 	void GoToParent();
 	void SetValueToCurrentNode(T value);
-	void WriteFromUpToDown(TreeNode<T>* node, int depth);
-	void WriteFromDownToUp(TreeNode<T>* node, int depth);
-	void WriteFromLeftToRight(TreeNode<T>* node, int depth);
+	void WriteFromUpToDown(TreeNode<T>* node, int depth = 0);
+	void WriteFromDownToUp(TreeNode<T>* node, int depth = 0);
+	void WriteFromLeftToRight(TreeNode<T>* node, int depth = 0);
 	TreeNode<T>* GetRoot();
 
 private:
 	TreeNode<T>* m_currentNode;
 	TreeNode<T>* m_root;
 };
+
+using namespace std;
+
+template <typename T>
+void MyBinTree<T>::AddNode(bool isLeft)
+{
+	if (m_currentNode == nullptr)
+	{
+		m_currentNode = new TreeNode<T>();
+		m_root = m_currentNode;
+	}
+	else
+	{
+		TreeNode<T>* NewNode = new TreeNode<T>();
+		NewNode->parent = m_currentNode;
+		if (isLeft && m_currentNode->left == nullptr)
+		{
+			m_currentNode->left = NewNode;
+		}
+		else if (!isLeft && m_currentNode->right == nullptr)
+		{
+			m_currentNode->right = NewNode;
+		}
+		else
+		{
+			cout << "Can't add new node, cause already created lead" << endl;
+			delete NewNode;
+			return;
+		}
+		m_currentNode = NewNode;
+	}
+}
+
+template <typename T>
+void MyBinTree<T>::GoToParent()
+{
+	if (m_currentNode->parent != nullptr)
+	{
+		m_currentNode = m_currentNode->parent;
+	}
+	else
+	{
+		cout << "This node is root" << endl;
+		return;
+	}
+}
+
+template <typename T>
+void MyBinTree<T>::SetValueToCurrentNode(T value)
+{
+	m_currentNode->value = value;
+}
+
+template <typename T>
+void MyBinTree<T>::WriteFromUpToDown(TreeNode<T>* node, int depth = 0)
+{
+	if (node != nullptr)
+	{
+		cout << string(depth, '-') << node->value << endl;
+		WriteFromUpToDown(node->left, depth + 1);
+		WriteFromUpToDown(node->right, depth + 1);
+	}
+}
+
+template <typename T>
+void MyBinTree<T>::WriteFromDownToUp(TreeNode<T>* node, int depth = 0)
+{
+	if (node != nullptr)
+	{
+		WriteFromDownToUp(node->left, depth + 1);
+		WriteFromDownToUp(node->right, depth + 1);
+		cout << string(depth, '-') << node->value << endl;
+	}
+}
+
+template <typename T>
+void MyBinTree<T>::WriteFromLeftToRight(TreeNode<T>* node, int depth = 0)
+{
+	if (node != nullptr)
+	{
+		WriteFromLeftToRight(node->left, depth + 1);
+		cout << string(depth, '-') << node->value << endl;
+		WriteFromLeftToRight(node->right, depth + 1);
+	}
+}
+
+template <typename T>
+TreeNode<T>* MyBinTree<T>::GetRoot()
+{
+	return m_root;
+}
