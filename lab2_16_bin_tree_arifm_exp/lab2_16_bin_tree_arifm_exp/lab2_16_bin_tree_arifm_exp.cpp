@@ -2,35 +2,14 @@
 //
 
 #include "stdafx.h"
-#include "MyBinTree.h"
+#include "ArifmExpressionConverter.h"
 
 using namespace std;
 
-int process(string fileName)
+void convertToTreeExpWithBrackets(vector<string>& inputVector, MyBinTree<string>* tree)
 {
-	string expression;
-
-	ifstream sourceFile(fileName);
-	if (!sourceFile.is_open())
-	{
-		cout << "Failed to open " << fileName << " for writing\n";
-		return 1;
-	}
-
-	getline(sourceFile, expression);
-	sourceFile.close();
-
-	if (expression.empty())
-	{
-		cout << "Empty string in a first row\n";
-		return 1;
-	}
-
-	static const vector<string> operators = { "+", "-", "*", "/" };
-	vector<string> inputVector(istream_iterator<string>(stringstream(expression)), (istream_iterator<string>()));
-	MyBinTree<string>* tree = new MyBinTree<string>();
 	auto isLeft = true;
-	tree->AddNode(isLeft);
+	static const vector<string> operators = { "+", "-", "*", "/" };
 	for (size_t i = 0; i < inputVector.size(); i++)
 	{
 		auto currentToken = inputVector[i];
@@ -54,14 +33,33 @@ int process(string fileName)
 		}
 		else
 		{
-			cout << "error input " << endl;
-			return 1;
+			throw invalid_argument("bad expression");
 		}
+	}
+}
 
-		tree->WriteFromUpToDown(tree->GetRoot());
-		cout << endl;
+int process(string fileName)
+{
+	string expression;
+
+	ifstream sourceFile(fileName);
+	if (!sourceFile.is_open())
+	{
+		cout << "Failed to open " << fileName << " for writing\n";
+		return 1;
 	}
 
+	getline(sourceFile, expression);
+	sourceFile.close();
+
+	if (expression.empty())
+	{
+		cout << "Empty string in a first row\n";
+		return 1;
+	}
+
+	ArifmExpressionConverter converter{ expression };
+	converter.Convert();
 
 	getchar();
 	return 0;
