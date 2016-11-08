@@ -94,7 +94,8 @@ void MyBinTree<T>::GoToParent()
 	}
 	else
 	{
-		cout << "This node is root" << endl;
+		// debug operator to show that we entered in root node
+		//cout << "This node is root" << endl;
 		return;
 	}
 }

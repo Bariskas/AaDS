@@ -17,6 +17,6 @@
 #include <iterator> 
 #include <sstream>
 #include <algorithm>
-
+#include <cmath>
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
