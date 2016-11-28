@@ -7,6 +7,8 @@
 этой   дороге.   С   помощью  алгоритма  Дейкстры   определить
 максимальный   груз,   который  можно  провести  между   двумя
 указанными городам (10).
+input5
+output5
 */
 
 #include "stdafx.h"
@@ -20,38 +22,46 @@ void WriteGraph(Graph& graph);
 int main()
 {
 	string filePath;
-	cout << "File path:" << endl;
-	cin >> filePath;
-	ifstream fs(filePath);
-	if (!fs.is_open())
+	while (true)
 	{
-		cout << "Wrong file path" << endl;
-		return 1;
+		cout << "(exit to exit) File path:" << endl;
+		cin >> filePath;
+		if (filePath == "exit")
+		{
+			break;
+		}
+
+		ifstream fs(filePath);
+		if (!fs.is_open())
+		{
+			cout << "Wrong file path" << endl;
+			continue;
+		}
+
+		Graph graph;
+		ReadGraphFrom(fs, graph);
+
+		int source;
+		int destination;
+		cout << "Enter source and destination: <source> <destination>" << endl;
+		cin >> source >> destination;
+
+		int maxWeght;
+		try
+		{
+			maxWeght = FindMaxWeight(graph, source - 1, destination - 1);
+		}
+		catch (const exception& e)
+		{
+			cout << e.what() << endl;
+			continue;
+		}
+
+		cout << "maxWeight = " << maxWeght << endl;
+		cout << "Press something to continue " << endl;
+		getchar();
 	}
-
-	Graph graph;
-	ReadGraphFrom(fs, graph);
-
-	int source;
-	int destination;
-	cout << "Enter source and destination: <source> <destination>" << endl;
-	cin >> source >> destination;
-
-	int maxWeght;
-	try
-	{
-		maxWeght = FindMaxWeight(graph, source - 1, destination - 1);
-	}
-	catch (const exception& e)
-	{
-		cout << e.what() << endl;
-		return 1;
-	}
-
-	cout << "maxWeight = " << maxWeght << endl;
-	cout << "Press something to exit " << endl;
-	getchar();
-
+	
     return 0;
 }
 
