@@ -39,7 +39,15 @@ int main()
 		}
 
 		Graph graph;
-		ReadGraphFrom(fs, graph);
+		try
+		{
+			ReadGraphFrom(fs, graph);
+		}
+		catch (const exception& e)
+		{
+			cout << e.what() << endl;
+			cout << "maybe wrong file" << endl;
+		}
 
 		int source;
 		int destination;
