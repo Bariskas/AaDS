@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lab3_19_graph_deikstra", "lab3_19_graph_deikstra\lab3_19_graph_deikstra.vcxproj", "{E5FCB920-8EA2-45A0-9B92-84486FB4133C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lab4_11_AVL_tree", "lab4_11_AVL_tree\lab4_11_AVL_tree.vcxproj", "{358F2B5A-B15B-4F3F-9DF5-95332BA59602}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{E5FCB920-8EA2-45A0-9B92-84486FB4133C}.Release|x64.Build.0 = Release|x64
 		{E5FCB920-8EA2-45A0-9B92-84486FB4133C}.Release|x86.ActiveCfg = Release|Win32
 		{E5FCB920-8EA2-45A0-9B92-84486FB4133C}.Release|x86.Build.0 = Release|Win32
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Debug|x64.ActiveCfg = Debug|x64
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Debug|x64.Build.0 = Debug|x64
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Debug|x86.ActiveCfg = Debug|Win32
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Debug|x86.Build.0 = Debug|Win32
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Release|x64.ActiveCfg = Release|x64
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Release|x64.Build.0 = Release|x64
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Release|x86.ActiveCfg = Release|Win32
+		{358F2B5A-B15B-4F3F-9DF5-95332BA59602}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
